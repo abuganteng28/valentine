@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentine: Our Virtual Love 💗</title>
+
+  <!-- Font (boleh dihapus kalau mau full offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#0b0b12;
+      --bg1:#101026;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.09);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.66);
+      --pink:#ff4fd8;
+      --rose:#ff3d6a;
+      --violet:#7c4dff;
+      --cyan:#29d3ff;
+      --gold:#ffd36d;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --r: 22px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 10% 10%, rgba(255,79,216,.22), transparent 55%),
+        radial-gradient(900px 650px at 90% 20%, rgba(124,77,255,.20), transparent 55%),
+        radial-gradient(900px 650px at 50% 90%, rgba(41,211,255,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* floating hearts */
+    .hearts{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.55}
+    .heart{
+      position:absolute; width:14px; height:14px; transform:rotate(45deg);
+      background:linear-gradient(135deg,var(--pink),var(--rose));
+      filter:drop-shadow(0 10px 18px rgba(255,79,216,.25));
+      border-radius:4px;
+      animation: floatUp linear infinite;
+      opacity:.0;
+    }
+    .heart::before,.heart::after{
+      content:""; position:absolute; width:14px; height:14px;
+      background:inherit; border-radius:50%;
+    }
+    .heart::before{left:-7px; top:0}
+    .heart::after{left:0; top:-7px}
+
+    @keyframes floatUp{
+      0%{transform:translateY(30px) rotate(45deg) scale(.9); opacity:0}
+      10%{opacity:.85}
+      100%{transform:translateY(-110vh) rotate(45deg) scale(1.25); opacity:0}
+    }
+
+    .wrap{position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:24px 18px 90px}
+
+    /* top bar */
+    .top{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 14px;
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius:16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .badge{
+      width:38px; height:38px; border-radius:12px;
+      background: radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.35), transparent 60%),
+                  linear-gradient(135deg, rgba(255,79,216,.9), rgba(124,77,255,.9));
+      box-shadow: 0 16px 40px rgba(124,77,255,.25);
+      display:grid; place-items:center;
+      font-weight:800;
+    }
+    .brand h1{font-size:14px; margin:0; letter-spacing:.2px}
+    .brand p{margin:0; font-size:12px; color:var(--muted)}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .btn{
+      appearance:none; border:1px solid var(--stroke);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px; border-radius:14px;
+      font-weight:700; cursor:pointer;
+      transition:.18s ease;
+      display:flex; align-items:center; gap:8px;
+    }
+    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.09)}
+    .btn.primary{
+      border-color:transparent;
+      background:linear-gradient(135deg, rgba(255,79,216,.95), rgba(124,77,255,.95));
+      box-shadow: 0 18px 40px rgba(255,79,216,.18);
+    }
+    .btn.primary:hover{filter:brightness(1.05)}
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--gold); box-shadow:0 0 0 4px rgba(255,211,109,.15)}
+    .muted{color:var(--muted)}
+
+    /* hero */
+    .hero{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){ .hero{grid-template-columns:1fr} }
+
+    .panel{
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+      position:relative;
+    }
+    .panel::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(600px 220px at 30% 0%, rgba(255,79,216,.18), transparent 60%),
+                  radial-gradient(550px 240px at 90% 30%, rgba(124,77,255,.16), transparent 60%);
+      pointer-events:none;
+    }
+
+    .heroLeft{padding:22px 20px; min-height:320px}
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.3px;
+      color:rgba(255,255,255,.88);
+      text-transform:uppercase; font-size:12px;
+    }
+    .kicker .pill{
+      padding:6px 10px; border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .title{
+      margin:12px 0 8px;
+      font-size:42px;
+      line-height:1.05;
+      letter-spacing:-.8px;
+    }
+    @media (max-width:520px){ .title{font-size:34px} }
+    .subtitle{margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.6}
+    .chips{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{
+      padding:8px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      font-size:12px; font-weight:700;
+    }
+
+    /* countdown */
+    .heroRight{display:flex; flex-direction:column}
+    .countWrap{padding:20px; display:flex; flex-direction:column; gap:12px}
+    .countHead{
+      display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+    }
+    .countHead h2{margin:0; font-size:16px}
+    .countHead p{margin:0; color:var(--muted); font-size:12px}
+    .countGrid{
+      display:grid; grid-template-columns: repeat(4, 1fr); gap:10px;
+    }
+    .countCard{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:12px 10px;
+      text-align:center;
+    }
+    .countCard .num{
+      font-size:28px; font-weight:900; letter-spacing:-.6px;
+      background: linear-gradient(135deg, #fff, rgba(255,255,255,.6));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .countCard .lbl{font-size:11px; color:var(--muted); font-weight:700}
+
+    .note{
+      margin-top:auto;
+      padding:16px 18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.18));
+    }
+    .note p{margin:0; color:rgba(255,255,255,.78); font-size:13px; line-height:1.6}
+    .highlight{
+      color:#fff;
+      font-weight:800;
+      background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(124,77,255,.95));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+
+    /* sections */
+    section{margin-top:18px}
+    .secTitle{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
+      margin:18px 0 10px;
+    }
+    .secTitle h3{margin:0; font-size:16px}
+    .secTitle span{color:var(--muted); font-size:12px}
+
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+    @media (max-width: 920px){ .grid2{grid-template-columns:1fr} }
+
+    /* moments (cards) */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    @media (max-width: 980px){ .cards{grid-template-columns: repeat(2,1fr)} }
+    @media (max-width: 620px){ .cards{grid-template-columns: 1fr} }
+
+    .card{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      border-radius: var(--r);
+      overflow:hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,.32);
+      transition: transform .18s ease, background .18s ease;
+      position:relative;
+    }
+    .card:hover{transform:translateY(-2px); background:rgba(255,255,255,.085)}
+    .thumb{
+      height:150px;
+      background:
+        radial-gradient(220px 140px at 20% 20%, rgba(255,79,216,.28), transparent 60%),
+        radial-gradient(260px 180px at 80% 30%, rgba(41,211,255,.18), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:flex-end; justify-content:space-between;
+      padding:12px 12px;
+    }
+    .thumb .tag{
+      font-size:11px; font-weight:800;
+      background:rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.12);
+      padding:7px 10px; border-radius:999px;
+      backdrop-filter: blur(6px);
+    }
+    .thumb .mini{
+      font-size:11px; color:rgba(255,255,255,.78);
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      backdrop-filter: blur(6px);
+    }
+    .card .body{padding:12px 12px 14px}
+    .card h4{margin:0 0 6px; font-size:14px}
+    .card p{margin:0; color:var(--muted); font-size:12px; line-height:1.6}
+
+    /* timeline */
+    .timeline{padding:14px 14px}
+    .step{
+      display:flex; gap:12px;
+      padding:10px 10px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      margin-bottom:10px;
+    }
+    .step:last-child{margin-bottom:0}
+    .icon{
+      width:40px; height:40px; border-radius:14px;
+      display:grid; place-items:center;
+      background:linear-gradient(135deg, rgba(255,79,216,.28), rgba(124,77,255,.22));
+      border:1px solid rgba(255,255,255,.14);
+      flex:0 0 auto;
+    }
+    .step b{display:block; font-size:13px}
+    .step small{color:var(--muted); font-size:12px}
+
+    /* letter */
+    .letter{padding:18px 18px}
+    .quote{
+      margin:0;
+      font-size:14px;
+      line-height:1.8;
+      color:rgba(255,255,255,.86);
+    }
+    .sig{
+      margin-top:12px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      color:var(--muted); font-size:12px;
+      border-top:1px dashed rgba(255,255,255,.18);
+      padding-top:12px;
+    }
+    .sig b{color:#fff}
+
+    /* footer */
+    footer{
+      margin-top:22px;
+      padding:16px 8px;
+      text-align:center;
+      color:rgba(255,255,255,.55);
+      font-size:12px;
+    }
+
+    /* modal */
+    .modal{
+      position:fixed; inset:0; display:none; place-items:center;
+      background:rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      z-index:50;
+      padding:18px;
+    }
+    .modal.show{display:grid}
+    .modalBox{
+      width:min(720px, 100%);
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.16);
+      background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+      box-shadow: 0 26px 80px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modalTop{
+      padding:14px 14px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.12);
+    }
+    .modalTop b{font-size:13px}
+    .close{
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      padding:8px 10px; border-radius:12px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .modalBody{padding:16px}
+    .ph{
+      width:100%; height:260px; border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(300px 220px at 20% 30%, rgba(255,79,216,.28), transparent 60%),
+        radial-gradient(320px 240px at 85% 30%, rgba(41,211,255,.14), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      display:grid; place-items:center;
+      color:rgba(255,255,255,.72);
+      text-align:center;
+      padding:18px;
+    }
+    .ph p{margin:0; font-size:12px; line-height:1.7}
+    .modalBody h4{margin:14px 0 8px; font-size:16px}
+    .modalBody .desc{margin:0; color:var(--muted); line-height:1.7; font-size:13px}
+
+    /* toast */
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:16px; z-index:99;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.4);
+      display:none;
+      color:rgba(255,255,255,.86);
+      font-weight:700; font-size:12px;
+      max-width:92vw;
+    }
+    .toast.show{display:block; animation: pop .18s ease}
+    @keyframes pop{from{transform:translateX(-50%) translateY(8px); opacity:0}to{transform:translateX(-50%) translateY(0); opacity:1}}
+  </style>
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="badge">❤</div>
+        <div>
+          <h1 id="siteTitle">Our Virtual Valentine</h1>
+          <p id="siteSub">14 Februari 2026 • dibuat khusus untuk kamu</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="btnCopy">📎 Copy Link/URL</button>
+        <button class="btn" id="btnSurprise">✨ Surprise</button>
+        <button class="btn primary" id="btnScroll">💞 Lihat Momen</button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="panel heroLeft">
+        <div class="kicker">
+          <span class="dot"></span>
+          <span class="pill" id="namesPill">Aku ✦ Kamu</span>
+          <span class="muted">•</span>
+          <span class="muted" id="statusPill">LDR Virtual, tetap jadi rumah</span>
+        </div>
+
+        <h2 class="title">
+          <span class="highlight" id="heroLine1">Happy Valentine</span><br/>
+          <span id="heroLine2">to my favorite player</span> 🎮💗
+        </h2>
+
+        <p class="subtitle" id="heroDesc">
+          Walau kita ketemunya lewat layar, rasanya tetap nyata. Aku simpan momen-momen kita di sini:
+          ketawa bareng, menang bareng, dan “kalah tapi tetep bareng”.
+        </p>
+
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="panel heroRight">
+        <div class="countWrap">
+          <div class="countHead">
+            <div>
+              <h2>Countdown ke 14 Februari</h2>
+              <p id="countHint">Biar kita ngerayain bareng (meski virtual).</p>
+            </div>
+            <button class="btn" id="btnMusic">🔊 Music: Off</button>
+          </div>
+
+          <div class="countGrid">
+            <div class="countCard"><div class="num" id="d">0</div><div class="lbl">Hari</div></div>
+            <div class="countCard"><div class="num" id="h">0</div><div class="lbl">Jam</div></div>
+            <div class="countCard"><div class="num" id="m">0</div><div class="lbl">Menit</div></div>
+            <div class="countCard"><div class="num" id="s">0</div><div class="lbl">Detik</div></div>
+          </div>
+        </div>
+
+        <div class="note">
+          <p id="noteText">
+            <span class="highlight">Janji kecil:</span> di tanggal 14, kita luangin waktu walau sebentar —
+            main game 1 match, atau voice call 10 menit pun jadi.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <section id="momentsSection">
+      <div class="secTitle">
+        <h3>🎞️ Momen Main Game Kita</h3>
+        <span>klik kartu untuk lihat detail</span>
+      </div>
+
+      <div class="cards" id="cards"></div>
+    </section>
+
+    <section>
+      <div class="grid2">
+        <div class="panel timeline">
+          <div class="secTitle" style="margin:0 0 10px">
+            <h3>🧷 Timeline “Kita”</h3>
+            <span>ringkas tapi ngena</span>
+          </div>
+          <div id="timeline"></div>
+        </div>
+
+        <div class="panel letter">
+          <div class="secTitle" style="margin:0 0 10px">
+            <h3>💌 Surat Kecil</h3>
+            <span>buat dibaca pelan-pelan</span>
+          </div>
+
+          <p class="quote" id="letterText"></p>
+
+          <div class="sig">
+            <div>Untuk: <b id="toName">Kamu</b></div>
+            <div>Dari: <b id="fromName">Aku</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Dibuat dengan hati + sedikit kode 💗 • <span id="footDate"></span>
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modalBox">
+      <div class="modalTop">
+        <b id="modalTitle">Detail Momen</b>
+        <button class="close" id="modalClose">✕</button>
+      </div>
+      <div class="modalBody">
+        <div class="ph" id="modalPh">
+          <div>
+            <p><b>Placeholder Foto/Screenshot</b></p>
+            <p>Ganti jadi gambar kalian: tinggal edit bagian <b>moments[].image</b> di CONFIG (lihat JS).</p>
+          </div>
+        </div>
+        <h4 id="modalH4">Judul</h4>
+        <p class="desc" id="modalDesc">Deskripsi</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <audio id="music" loop>
+    <!-- Kamu bisa ganti pakai file mp3 milikmu sendiri -->
+    <!-- <source src="music.mp3" type="audio/mpeg" /> -->
+  </audio>
+
+  <script>
+    /* =========================
+       EDIT DI SINI (CONFIG)
+       ========================= */
+    const CONFIG = {
+      // Target date: 14 Feb 2026 00:00 (WIB / Asia-Jakarta)
+      targetISO: "2026-02-14T00:00:00+07:00",
+
+      me: "Aku",
+      her: "Kamu",
+
+      status: "LDR Virtual, tetap jadi rumah",
+      heroLine2: "to my favorite player",
+      heroDesc:
+        "Walau kita ketemunya lewat layar, rasanya tetap nyata. Aku simpan momen-momen kita di sini: ketawa bareng, menang bareng, dan “kalah tapi tetep bareng”.",
+
+      chips: ["🎮 Game date", "🎧 VC/Call", "💬 Chat sampai lupa waktu", "✨ Support system"],
+
+      letter:
+`Hai kamu,
+Terima kasih ya… sudah jadi orang yang selalu ada, bahkan dari jauh.
+Aku suka cara kita bikin hal sederhana terasa spesial: satu match, satu lobby, satu tawa—itu cukup.
+
+Kalau nanti tanggal 14, aku cuma mau bilang:
+aku bangga sama kamu, sayang sama kamu, dan aku pilih kamu… tiap hari.
+
+Love you, always.`,
+
+      timeline: [
+        { icon: "💬", title: "Pertama kali nyambung", desc: "dari obrolan kecil sampai jadi kebiasaan." },
+        { icon: "🎮", title: "Main bareng pertama", desc: "deg-degan tapi seru banget." },
+        { icon: "🎧", title: "Call yang bikin tenang", desc: "suaramu = tempat pulang." },
+        { icon: "💗", title: "Valentine ini", desc: "kita rayain dengan cara kita sendiri." },
+      ],
+
+      // Momen kartu (isi sesuai game kalian)
+      moments: [
+        {
+          date: "2026-01-05",
+          game: "Roblox / Game Favorit",
+          title: "First Match yang Bikin Ketawa",
+          desc: "Kita salah jalan, kalah, tapi malah ngakak terus. Ini momen yang bikin aku sadar: bareng kamu, semuanya jadi ringan.",
+          image: "" // opsional: taruh URL gambar / path lokal, contoh: "img/momen1.jpg"
+        },
+        {
+          date: "2026-01-18",
+          game: "Mobile Legends / Valorant / dll",
+          title: "Comeback Paling Gila",
+          desc: "Udah hampir nyerah, tapi kamu bilang: 'ayo fokus, bisa.' Terus beneran menang. Aku suka cara kamu nenangin.",
+          image: ""
+        },
+        {
+          date: "2026-01-30",
+          game: "Minecraft / Free Fire / dll",
+          title: "Malam Paling Nyaman",
+          desc: "Kita main sambil cerita hal random. Rasanya kayak duduk bareng beneran, cuma bedanya kita dipisah jarak.",
+          image: ""
+        },
+        {
+          date: "2026-02-01",
+          game: "Game apa aja",
+          title: "Kamu: MVP di Hidupku",
+          desc: "Bukan soal skor. Tapi soal kamu selalu ngasih semangat pas aku capek. Makasih ya.",
+          image: ""
+        },
+        {
+          date: "2026-02-10",
+          game: "Game date lagi",
+          title: "Latihan Buat Tanggal 14",
+          desc: "Kita siapin jam, siapin mood, siapin waktu—biar Valentine kita sederhana tapi berkesan.",
+          image: ""
+        },
+        {
+          date: "2026-02-14",
+          game: "Valentine Special",
+          title: "Our Valentine Lobby 💞",
+          desc: "Hari ini bukan soal hadiah mahal. Cukup kamu, aku, dan waktu yang kita pilih untuk saling sayang.",
+          image: ""
+        },
+      ]
+    };
+
+    /* =========================
+       RENDER
+       ========================= */
+    const $ = (q)=>document.querySelector(q);
+    const cards = $("#cards");
+    const timeline = $("#timeline");
+
+    $("#siteTitle").textContent = `${CONFIG.me} & ${CONFIG.her} • Valentine`;
+    $("#siteSub").textContent = `14 Februari 2026 • dibuat khusus untuk ${CONFIG.her}`;
+    $("#namesPill").textContent = `${CONFIG.me} ✦ ${CONFIG.her}`;
+    $("#statusPill").textContent = CONFIG.status;
+    $("#heroLine2").textContent = CONFIG.heroLine2;
+    $("#heroDesc").textContent = CONFIG.heroDesc;
+    $("#letterText").textContent = CONFIG.letter;
+    $("#toName").textContent = CONFIG.her;
+    $("#fromName").textContent = CONFIG.me;
+    $("#footDate").textContent = new Date().toLocaleString("id-ID", { dateStyle:"full", timeStyle:"short" });
+
+    // chips
+    const chipsEl = $("#chips");
+    CONFIG.chips.forEach(t=>{
+      const el = document.createElement("span");
+      el.className = "chip";
+      el.textContent = t;
+      chipsEl.appendChild(el);
+    });
+
+    // timeline
+    CONFIG.timeline.forEach(t=>{
+      const row = document.createElement("div");
+      row.className = "step";
+      row.innerHTML = `
+        <div class="icon">${t.icon}</div>
+        <div>
+          <b>${t.title}</b>
+          <small>${t.desc}</small>
+        </div>
+      `;
+      timeline.appendChild(row);
+    });
+
+    // moment cards
+    CONFIG.moments.forEach((m, idx)=>{
+      const el = document.createElement("div");
+      el.className = "card";
+      el.innerHTML = `
+        <div class="thumb">
+          <span class="tag">${m.game}</span>
+          <span class="mini">${formatDate(m.date)}</span>
+        </div>
+        <div class="body">
+          <h4>${m.title}</h4>
+          <p>${m.desc}</p>
+        </div>
+      `;
+      el.addEventListener("click", ()=> openModal(m));
+      cards.appendChild(el);
+    });
+
+    function formatDate(iso){
+      const d = new Date(iso+"T00:00:00");
+      return d.toLocaleDateString("id-ID", { day:"2-digit", month:"short", year:"numeric" });
+    }
+
+    /* =========================
+       COUNTDOWN (ke 14 Feb 2026 WIB)
+       ========================= */
+    const target = new Date(CONFIG.targetISO).getTime();
+    const dEl=$("#d"), hEl=$("#h"), mEl=$("#m"), sEl=$("#s");
+
+    function tick(){
+      const now = Date.now();
+      let diff = target - now;
+
+      if(diff <= 0){
+        dEl.textContent = "0";
+        hEl.textContent = "0";
+        mEl.textContent = "0";
+        sEl.textContent = "0";
+        $("#countHint").textContent = "Hari ini Valentine! 💗";
+        $("#noteText").innerHTML = `<span class="highlight">Happy Valentine!</span> Semoga hari ini jadi memori manis buat kita.`;
+        return;
+      }
+
+      const sec = Math.floor(diff/1000);
+      const days = Math.floor(sec / 86400);
+      const hours = Math.floor((sec % 86400) / 3600);
+      const mins = Math.floor((sec % 3600) / 60);
+      const secs = sec % 60;
+
+      dEl.textContent = days;
+      hEl.textContent = String(hours).padStart(2,"0");
+      mEl.textContent = String(mins).padStart(2,"0");
+      sEl.textContent = String(secs).padStart(2,"0");
+    }
+    tick(); setInterval(tick, 1000);
+
+    /* =========================
+       MODAL
+       ========================= */
+    const modal = $("#modal");
+    $("#modalClose").addEventListener("click", ()=> modal.classList.remove("show"));
+    modal.addEventListener("click", (e)=>{ if(e.target===modal) modal.classList.remove("show"); });
+
+    function openModal(m){
+      $("#modalTitle").textContent = m.game;
+      $("#modalH4").textContent = m.title;
+      $("#modalDesc").textContent = `${formatDate(m.date)} • ${m.desc}`;
+
+      const ph = $("#modalPh");
+      if(m.image){
+        ph.innerHTML = `<img alt="moment" src="${m.image}" style="width:100%;height:260px;object-fit:cover;border-radius:18px">`;
+      }else{
+        ph.innerHTML = `
+          <div>
+            <p><b>Placeholder Foto/Screenshot</b></p>
+            <p>Taruh screenshot momen kalian di <b>moments[].image</b>.</p>
+          </div>
+        `;
+      }
+
+      modal.classList.add("show");
+    }
+
+    /* =========================
+       BUTTONS
+       ========================= */
+    $("#btnScroll").addEventListener("click", ()=>{
+      $("#momentsSection").scrollIntoView({ behavior:"smooth", block:"start" });
+    });
+
+    $("#btnCopy").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(location.href);
+        toast("Link disalin ✨ (kalau belum di-host, ini link file lokal)");
+      }catch{
+        toast("Gagal copy. Coba manual ya.");
+      }
+    });
+
+    $("#btnSurprise").addEventListener("click", ()=>{
+      toast(`Aku sayang kamu, ${CONFIG.her} 💗`);
+      burstHearts(16);
+    });
+
+    /* =========================
+       MUSIC TOGGLE (optional)
+       ========================= */
+    const music = $("#music");
+    let musicOn = false;
+    $("#btnMusic").addEventListener("click", async ()=>{
+      if(!musicOn){
+        // kalau kamu punya file, aktifkan source di tag <audio>
+        try{ await music.play(); }catch(e){}
+        musicOn = true;
+        $("#btnMusic").textContent = "🔊 Music: On";
+        toast("Music On (kalau belum ada file, tidak akan bunyi)");
+      }else{
+        music.pause();
+        musicOn = false;
+        $("#btnMusic").textContent = "🔊 Music: Off";
+        toast("Music Off");
+      }
+    });
+
+    /* =========================
+       HEARTS BACKGROUND
+       ========================= */
+    const heartWrap = $("#hearts");
+
+    function spawnHeart(){
+      const h = document.createElement("div");
+      h.className = "heart";
+      const size = rand(10, 18);
+      h.style.width = size+"px";
+      h.style.height = size+"px";
+      h.style.left = rand(0, 100)+"vw";
+      h.style.animationDuration = rand(6, 12)+"s";
+      h.style.animationDelay = rand(0, 3)+"s";
+      h.style.opacity = 0;
+      heartWrap.appendChild(h);
+
+      // remove later
+      setTimeout(()=> h.remove(), 14000);
+    }
+    for(let i=0;i<18;i++) spawnHeart();
+    setInterval(()=> spawnHeart(), 900);
+
+    function burstHearts(n=10){
+      for(let i=0;i<n;i++){
+        const h = document.createElement("div");
+        h.className = "heart";
+        const size = rand(10, 18);
+        h.style.width = size+"px";
+        h.style.height = size+"px";
+        h.style.left = rand(10, 90)+"vw";
+        h.style.animationDuration = rand(4, 7)+"s";
+        h.style.animationDelay = "0s";
+        heartWrap.appendChild(h);
+        setTimeout(()=> h.remove(), 9000);
+      }
+    }
+
+    function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+    /* =========================
+       TOAST
+       ========================= */
+    const tEl = $("#toast");
+    let tTimer = null;
+    function toast(msg){
+      tEl.textContent = msg;
+      tEl.classList.add("show");
+      clearTimeout(tTimer);
+      tTimer = setTimeout(()=> tEl.classList.remove("show"), 1800);
+    }
+  </script>
+</body>
+</html>
